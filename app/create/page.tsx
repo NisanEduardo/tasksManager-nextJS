@@ -3,25 +3,23 @@
 import { TasksHeading } from "../Molecules/TasksHeading";
 import { ActionButtom } from "../Atoms/ActionButton/ActionButtom";
 
-import { useTaskStore } from "../store/tasksStore";
+import { TaskProps, useTaskStore } from "../store/tasksStore";
 import { TaskStatusModal } from "../Molecules/TaskStatusModal";
-import { useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import { TaskModel } from "../models/taskModel.model";
 
 export default function CreateTask() {
-  const [showModal, setShowModal] = useState<boolean>(false);
-
   const {
+    showModal,
     task,
     taskName,
     tasksStoraged,
+    setShowModal,
     setTask,
     setTaskName,
     setClearTasks,
     setTasksStoraged,
   } = useTaskStore();
-
-  console.log("tasksstoraged", tasksStoraged);
 
   const taskModel = new TaskModel(new Date(), taskName, false);
 
@@ -30,11 +28,28 @@ export default function CreateTask() {
     setTaskName(inputValue);
   }
 
-  function createTask(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setTask(taskModel.create());
-    setShowModal(true);
+  const createTask = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      setTask(taskModel.create());
+      setShowModal(true);
+    },
+    [taskName]
+  );
+
+  function saveNewTasksStoragedArray() {
+    localStorage.setItem("tasksDB", JSON.stringify(tasksStoraged));
+    setTaskName("");
   }
+
+  useEffect(() => {
+    if (!task) return;
+    setTasksStoraged(task);
+  }, [task]);
+
+  useEffect(() => {
+    saveNewTasksStoragedArray();
+  }, [tasksStoraged]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">

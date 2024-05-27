@@ -7,12 +7,14 @@ export type TaskProps = {
 };
 
 type States = {
+  showModal: boolean
   taskName: string;
   task: TaskProps | null;
   tasksStoraged: TaskProps[] | never[] | any;
 };
 
 type Actions = {
+  setShowModal: (statement: boolean) => void
   setTaskName: (name: string) => void;
   setTask: (task: TaskProps) => void;
   setTasksStoraged: (task: TaskProps) => void;
@@ -20,6 +22,10 @@ type Actions = {
 };
 
 export const useTaskStore = create<States & Actions>((set) => ({
+  showModal: false,
+  setShowModal: (statement: boolean) => set(() => ({
+    showModal: statement
+  })),
   taskName: "",
   setTaskName: (name: string) =>
     set(() => ({
@@ -30,7 +36,7 @@ export const useTaskStore = create<States & Actions>((set) => ({
     set(() => ({
       task: task,
     })),
-  tasksStoraged: JSON.parse(localStorage.getItem("tasksDB") || ""),
+  tasksStoraged: [],
   setTasksStoraged: (task: TaskProps) =>
     set((state) => ({
       tasksStoraged: [...state.tasksStoraged, task],
