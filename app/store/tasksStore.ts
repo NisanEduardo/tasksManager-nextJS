@@ -30,7 +30,7 @@ export const useTaskStore = create<States & Actions>((set) => ({
     set(() => ({
       task: task,
     })),
-  tasksStoraged: JSON.parse(localStorage.getItem("tasksDB") || ""),
+  tasksStoraged: [],
   setTasksStoraged: (task: TaskProps) =>
     set((state) => ({
       tasksStoraged: [...state.tasksStoraged, task],
