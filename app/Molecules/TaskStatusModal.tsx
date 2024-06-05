@@ -1,26 +1,15 @@
 import { ActionButtom } from "../Atoms/ActionButton/ActionButtom";
 import { useTaskStore } from "../store/tasksStore";
-<<<<<<< HEAD
-
-export const TaskStatusModal = () => {
-  const { taskName } = useTaskStore();
-
-  return (
-    <div id="successModal">
-      <header>Status da tarefa criada!</header>
-      <h2>{taskName}</h2>
-      <p>Tarefa adicionada com sucesso!</p>
-=======
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 
-interface ITaskStatusModal {
-  showModal: boolean;
-}
+export const TaskStatusModal = () => {
+  const { task, showModal, setShowModal } = useTaskStore();
 
-export const TaskStatusModal = ({ showModal }: ITaskStatusModal) => {
-  const { task, setShowModal } = useTaskStore();
+  function handleClose() {
+    setShowModal(false);
+  }
 
   return (
     <div
@@ -32,11 +21,11 @@ export const TaskStatusModal = ({ showModal }: ITaskStatusModal) => {
     >
       <article className="relative bg-gray-100 text-gray-600 rounded-lg pb-8 pt-11 px-5 min-w-[450px]">
         <ActionButtom
-          classes="absolute border-0 text-gray-600 txt-gra text-sm top-2 right-0 text-[18px]"
+          classes="absolute border-0 text-gray-600 text-xl top-2 right-0 text-[18px] "
           text="x"
-          fn={() => setShowModal(false)}
+          fn={handleClose}
         >
-          <FontAwesomeIcon icon={faClose} />
+          <FontAwesomeIcon icon={faClose} color="rgb(75,85,99)" />
         </ActionButtom>
 
         <header className="border-b border-b-gray-400 mb-5 text-center">
@@ -49,7 +38,6 @@ export const TaskStatusModal = ({ showModal }: ITaskStatusModal) => {
           </p>
         </footer>
       </article>
->>>>>>> 841e1438a842b9e6a2b13051b6641e97a500533a
     </div>
   );
 };

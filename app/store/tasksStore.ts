@@ -23,9 +23,7 @@ type Actions = {
 
 export const useTaskStore = create<States & Actions>((set) => ({
   showModal: false,
-  setShowModal: (statement: boolean) => set(() => ({
-    showModal: statement
-  })),
+  setShowModal: (statement: boolean) => set(() => ({ showModal: statement })),
   taskName: "",
   setTaskName: (name: string) =>
     set(() => ({

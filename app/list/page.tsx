@@ -1,3 +1,5 @@
-export default function ListTasks() {
-  return <h1>List Tasks</h1>;
+import { ListTasks } from "../components/list-tasks";
+
+export default function ListTasksPage() {
+  return <ListTasks />;
 }

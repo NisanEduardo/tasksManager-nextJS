@@ -1,16 +1,8 @@
 import "@testing-library/jest-dom";
-import {
-  act,
-  fireEvent,
-  getByText,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 
-import { CreateTask } from "../app/components/CreateTask";
-
-import { TaskStatusModal } from "../app/Molecules/TaskStatusModal";
+import { CreateTask } from "../app/components/create-task/CreateTask";
+import { CreateTaskForm } from "@/app/Molecules/CreateTaskForm";
 
 describe("create task component tests", () => {
   it("should render component without errors", () => {
@@ -19,13 +11,19 @@ describe("create task component tests", () => {
     expect(screen.getByText("Cadastrar Tarefa")).toBeInTheDocument;
   });
 
-  it("should pass", async () => {
-    render(<CreateTask />);
+  it("should call submit form function", async () => {
+    const mockSubmit = jest.fn();
 
-    const btnCreate = screen.getByText("Cadastrar");
+    const { getByPlaceholderText, getByTestId } = render(
+      <CreateTaskForm onSubmit={mockSubmit} />
+    );
 
-    fireEvent.click(btnCreate);
+    fireEvent.change(getByPlaceholderText("Digite o nome da tarefa"), {
+      target: { value: "Joe Doe" },
+    });
 
-    expect(screen.getByText("Status da tarefa")).toBeInTheDocument();
+    fireEvent.submit(getByTestId("createTaskForm"));
+
+    expect(mockSubmit).toHaveBeenCalled();
   });
 });

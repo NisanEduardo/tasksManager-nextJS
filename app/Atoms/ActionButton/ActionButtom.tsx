@@ -18,7 +18,7 @@ export const ActionButtom = ({
   return (
     <button
       type={`${type && type}`}
-      className={`text-white rounded-lg py-2 px-4 border transition-all ${classes}`}
+      className={`${classes} text-white rounded-lg py-2 px-4 border transition-all`}
       onClick={fn}
     >
       {children ? children : text}
