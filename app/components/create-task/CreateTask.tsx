@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { useTaskStore } from "../../store/tasksStore";
 import { TasksHeading } from "../../Molecules/TasksHeading";
-import { ActionButtom } from "../../Atoms/ActionButton/ActionButtom";
 import { TaskStatusModal } from "../../Molecules/TaskStatusModal";
 import { CreateTaskForm } from "../../Molecules/CreateTaskForm";
 import { TaskModel } from "../../models/taskModel.model";
@@ -23,7 +22,6 @@ export const CreateTask = () => {
     showModal,
     setShowModal,
     setTask,
-    setClearTasks,
     setTasksStoraged,
   } = useTaskStore();
 

@@ -11,7 +11,7 @@ type TasksItemProps = {
 };
 
 export const TasksItem = ({ task }: TasksItemProps) => {
-  function checkAsCompleted(task) {
+  function checkAsCompleted(task: TaskProps) {
     return task.completed ? "line-through" : "none";
   }
 

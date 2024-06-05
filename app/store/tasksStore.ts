@@ -36,9 +36,18 @@ export const useTaskStore = create<States & Actions>((set) => ({
     })),
   tasksStoraged: [],
   setTasksStoraged: (task: TaskProps) =>
-    set((state) => ({
-      tasksStoraged: [...state.tasksStoraged, task],
-    })),
+    set(
+      (state) => {
+        const isDuplicateName = state.tasksStoraged.find((indexTask: TaskProps) => indexTask.name === task.name)
+
+        if (isDuplicateName !== undefined) {
+          alert('Esta tarefa já foi criada')
+          return { tasksStoraged: state.tasksStoraged }
+        }
+
+        return { tasksStoraged: [...state.tasksStoraged, task] }
+      }
+    ),
   setClearTasks: () =>
     set(() => ({
       tasksStoraged: [],
