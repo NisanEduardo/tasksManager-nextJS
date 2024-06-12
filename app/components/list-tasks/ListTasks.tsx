@@ -7,15 +7,28 @@ import { TasksHeading } from "@/app/Molecules/TasksHeading";
 import { TaskProps } from "../../store/tasksStore";
 import { TasksFooter } from "@/app/Molecules/TasksFooter";
 import { TasksItem } from "../task-item/TaskItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { useTaskStore } from "../../store/tasksStore";
+
+import { useLocalStorage } from "../../custom-hooks/useLocalStorage";
+import { DialogCompletedTaskModal } from "@/app/Molecules/DialogCompletedTaskModal";
 
 export const ListTasks = () => {
+  const { hasLocalStorageTasks } = useLocalStorage();
+
+  const { task, showModal } = useTaskStore();
+
+  const localStorageTasks = hasLocalStorageTasks();
+
   return (
-    <>
+    <div className="relative">
       <TasksHeading text="Tarefas a fazer" />
 
+      {task && showModal ? <DialogCompletedTaskModal task={task} /> : null}
+
       <div className="py-8">
-        {/* <table className="w-full min-w-[500px] mt-10 rounded-lg">
+        <table className="w-full min-w-[500px] mt-10 rounded-lg">
           <thead className="border-gray-200 border-b">
             <tr className="">
               <th className="text-white text-xl text-left pb-5">Tarefa</th>
@@ -31,14 +44,14 @@ export const ListTasks = () => {
             </tr>
           </thead>
           <tbody className="">
-            {localTasks.map((task: TaskProps) => (
-              <TasksItem key={task.name} task={task} />
+            {localStorageTasks.map((task: TaskProps) => (
+              <TasksItem task={task} />
             ))}
           </tbody>
-        </table> */}
+        </table>
       </div>
 
       <TasksFooter />
-    </>
+    </div>
   );
 };

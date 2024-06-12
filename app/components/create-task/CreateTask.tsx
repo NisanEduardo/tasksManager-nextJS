@@ -35,6 +35,12 @@ export const CreateTask = () => {
 
   function createTask() {
     setTask(taskModel.create());
+
+    // setTask({
+    //   id: new Date(),
+    //   name: "comprar pão",
+    //   completed: true,
+    // });
     setShowModal(true);
   }
 

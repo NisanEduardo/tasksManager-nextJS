@@ -13,9 +13,7 @@ export const TaskStatusModal = () => {
 
   return (
     <div
-      className={`${
-        showModal ? "flex" : "hidden"
-      } bg-[rgba(0,0,0,0.7)] absolute z-10 w-[100%] h-[100%] top-0 justify-center items-center`}
+      className="bg-[rgba(0,0,0,0.7)] absolute z-10 w-[100%] h-[100%] top-0 justify-center items-center"
       id="successModal"
       data-testid="feedbackModal"
     >

@@ -1,10 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-
-// import { CompleteTask } from "./CompleteTask";
+import { faClipboardCheck, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 import { TaskProps, useTaskStore } from "../../store/tasksStore";
-import { CompleteTask } from "./CompleteTask";
+import { ActionButtom } from "@/app/Atoms/ActionButton/ActionButtom";
 
 type TasksItemProps = {
   task: TaskProps;
@@ -15,8 +13,10 @@ export const TasksItem = ({ task }: TasksItemProps) => {
     return task.completed ? "line-through" : "none";
   }
 
+  const { setShowModal, setTask } = useTaskStore();
+
   return (
-    <tr key={task.name} className="">
+    <tr className="relative">
       <td
         data-testid="taskName"
         className={`${checkAsCompleted(task)} pt-5`}
@@ -25,10 +25,16 @@ export const TasksItem = ({ task }: TasksItemProps) => {
         {task.name}
       </td>
       <td className="text-right pt-5">
-        <CompleteTask
-          task={task}
-          classes={task.completed ? "hidden" : "inline-block mr-3"}
-        />
+        <ActionButtom
+          classes="border-0"
+          text="Finalizou?"
+          fn={() => {
+            setShowModal(true);
+            setTask(task);
+          }}
+        >
+          <FontAwesomeIcon icon={faClipboardCheck} color="rgba(21,128,61,1)" />
+        </ActionButtom>
         <a
           className={`${
             task.completed ? "hidden" : "inline-block"
