@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect } from "react";
-import { useTaskStore } from "../../store/tasksStore";
+import { TaskProps, useTaskStore } from "../../store/tasksStore";
 import { TasksHeading } from "../../Molecules/TasksHeading";
 import { TaskStatusModal } from "../../Molecules/TaskStatusModal";
 import { CreateTaskForm } from "../../Molecules/CreateTaskForm";
 import { TaskModel } from "../../models/taskModel.model";
 import { TasksFooter } from "@/app/Molecules/TasksFooter";
+import { useLocalStorage } from "../../custom-hooks/useLocalStorage";
 
 export const createTask = () => {
   const { setShowModal } = useTaskStore();
@@ -25,33 +26,24 @@ export const CreateTask = () => {
     setTasksStoraged,
   } = useTaskStore();
 
+  const { hasLocalStorageTasks } = useLocalStorage();
+
   const taskModel = new TaskModel(new Date(), taskName, false);
-
-  function populateStoragedTasks() {
-    if (localStorage.getItem("tasksDB") === "") return;
-
-    setTasksStoraged(JSON.parse(localStorage.getItem("tasksDB") || ""));
-  }
 
   function createTask() {
     setTask(taskModel.create());
 
-    // setTask({
-    //   id: new Date(),
-    //   name: "comprar pão",
-    //   completed: true,
-    // });
     setShowModal(true);
   }
 
   useEffect(() => {
-    populateStoragedTasks;
+    setTasksStoraged(hasLocalStorageTasks());
   }, []);
 
   useEffect(() => {
     if (!task) return;
-    setTasksStoraged(task);
-  }, [setTasksStoraged, task]);
+    setTasksStoraged([...tasksStoraged, task]);
+  }, [task]);
 
   useEffect(() => {
     localStorage.setItem("tasksDB", JSON.stringify(tasksStoraged));

@@ -4,11 +4,11 @@ import { ActionButtom } from "../Atoms/ActionButton/ActionButtom";
 
 import { useTaskStore } from "../store/tasksStore";
 
-interface teste {
+interface CreateTaskFormProps {
   onSubmit: () => void;
 }
 
-export const CreateTaskForm = ({ onSubmit }: teste) => {
+export const CreateTaskForm = ({ onSubmit }: CreateTaskFormProps) => {
   const { taskName, setShowModal, setTaskName } = useTaskStore();
 
   function handleTaskInput(event: React.FormEvent<HTMLInputElement>) {

@@ -17,7 +17,7 @@ type Actions = {
   setShowModal: (statement: boolean) => void
   setTaskName: (name: string) => void;
   setTask: (task: TaskProps) => void;
-  setTasksStoraged: (task: TaskProps) => void;
+  setTasksStoraged: (tasks: Array<TaskProps>) => void;
   setClearTasks: () => void;
 };
 
@@ -35,13 +35,7 @@ export const useTaskStore = create<States & Actions>((set) => ({
       task: task,
     })),
   tasksStoraged: [],
-  setTasksStoraged: (task: TaskProps) =>
-    set(
-      (state) => {
-
-        return { tasksStoraged: [...state.tasksStoraged, task] }
-      }
-    ),
+  setTasksStoraged: (tasks: TaskProps[]) => set(() => ({ tasksStoraged: tasks })),
   setClearTasks: () =>
     set(() => ({
       tasksStoraged: [],

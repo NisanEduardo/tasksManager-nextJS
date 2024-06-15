@@ -17,15 +17,23 @@ import { DialogCompletedTaskModal } from "@/app/Molecules/DialogCompletedTaskMod
 export const ListTasks = () => {
   const { hasLocalStorageTasks } = useLocalStorage();
 
-  const { task, showModal } = useTaskStore();
+  const { task, tasksStoraged, showModal, setTasksStoraged, setShowModal } =
+    useTaskStore();
 
-  const localStorageTasks = hasLocalStorageTasks();
+  useEffect(() => {
+    setTasksStoraged(hasLocalStorageTasks());
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("tasksDB", JSON.stringify(tasksStoraged));
+    setShowModal(false);
+  }, [tasksStoraged]);
 
   return (
     <div className="relative">
       <TasksHeading text="Tarefas a fazer" />
 
-      {task && showModal ? <DialogCompletedTaskModal task={task} /> : null}
+      {task && showModal ? <DialogCompletedTaskModal currTask={task} /> : null}
 
       <div className="py-8">
         <table className="w-full min-w-[500px] mt-10 rounded-lg">
@@ -44,9 +52,10 @@ export const ListTasks = () => {
             </tr>
           </thead>
           <tbody className="">
-            {localStorageTasks.map((task: TaskProps) => (
-              <TasksItem task={task} />
-            ))}
+            {tasksStoraged &&
+              tasksStoraged.map((task: TaskProps, index: number) => (
+                <TasksItem key={`${task.name}-${index}`} task={task} />
+              ))}
           </tbody>
         </table>
       </div>
