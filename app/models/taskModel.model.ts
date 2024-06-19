@@ -1,19 +1,11 @@
 export class TaskModel {
-  id: Date;
-  name: string;
-  completed: boolean;
+  constructor() { }
 
-  constructor(id: Date, name: string, completed: boolean) {
-    this.id = id;
-    this.name = name;
-    this.completed = completed;
-  }
-
-  create() {
+  create(id: Date, name: string, completed: boolean) {
     return {
-      id: this.id,
-      name: this.name,
-      completed: this.completed,
+      id,
+      name,
+      completed
     };
   }
 }

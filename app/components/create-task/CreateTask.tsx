@@ -28,10 +28,10 @@ export const CreateTask = () => {
 
   const { hasLocalStorageTasks } = useLocalStorage();
 
-  const taskModel = new TaskModel(new Date(), taskName, false);
+  const taskModel = new TaskModel();
 
   function createTask() {
-    setTask(taskModel.create());
+    setTask(taskModel.create(new Date(), taskName, false));
 
     setShowModal(true);
   }
