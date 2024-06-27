@@ -29,7 +29,10 @@ export const DialogCompletedTaskModal = ({
   );
 
   return (
-    <div className="bg-[rgba(0,0,0,0.7)] fixed flex z-10 w-[100vw] h-[100vh] top-0 left-0 justify-center items-center">
+    <div
+      data-testid="DialogCompletedTaskModalTest"
+      className="bg-[rgba(0,0,0,0.7)] fixed flex z-10 w-[100vw] h-[100vh] top-0 left-0 justify-center items-center"
+    >
       <article className="relative bg-gray-100 text-gray-600 rounded-lg pb-8 pt-11 px-5 min-w-[450px]">
         <ActionButtom
           classes="absolute border-0 text-gray-600 text-xl top-2 right-0 text-[18px] "
