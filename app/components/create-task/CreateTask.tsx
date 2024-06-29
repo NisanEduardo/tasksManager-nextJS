@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
-import { TaskProps, useTaskStore } from "../../store/tasksStore";
+import { useEffect, useState } from "react";
+import { useTaskStore, TaskProps } from "../../store/tasksStore";
 import { TasksHeading } from "../../Molecules/TasksHeading";
 import { TaskStatusModal } from "../../Molecules/TaskStatusModal";
 import { CreateTaskForm } from "../../Molecules/CreateTaskForm";
@@ -21,9 +21,9 @@ export const CreateTask = () => {
     tasksStoraged,
     taskName,
     showModal,
+    setTasksStoraged,
     setShowModal,
     setTask,
-    setTasksStoraged,
   } = useTaskStore();
 
   const { hasLocalStorageTasks } = useLocalStorage();
@@ -37,11 +37,8 @@ export const CreateTask = () => {
   }
 
   useEffect(() => {
-    setTasksStoraged(hasLocalStorageTasks());
-  }, []);
-
-  useEffect(() => {
     if (!task) return;
+
     setTasksStoraged([...tasksStoraged, task]);
   }, [task]);
 

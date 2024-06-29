@@ -17,6 +17,8 @@ import { DialogCompletedTaskModal } from "@/app/Molecules/DialogCompletedTaskMod
 export const ListTasks = () => {
   const { hasLocalStorageTasks } = useLocalStorage();
 
+  // console.log("tasks", hasLocalStorageTasks);
+
   const { task, tasksStoraged, showModal, setTasksStoraged, setShowModal } =
     useTaskStore();
 

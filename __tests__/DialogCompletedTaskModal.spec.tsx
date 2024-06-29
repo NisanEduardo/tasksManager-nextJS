@@ -32,12 +32,10 @@ describe("Dialog to mark task a completed or not", () => {
 
   //   render(<DialogCompletedTaskModal currTask={taskForDialogTest} />);
 
-  //   const opneModalButton = container.querySelector(".handleOpenModalAction");
   //   const markAsCompleteTaskButon = container.querySelector(
   //     "[data-testid=completeTaskYes]"
   //   );
 
-  //   fireEvent.click(opneModalButton);
   //   fireEvent.click(markAsCompleteTaskButon);
 
   //   const updatedLocalStorage = JSON.parse(localStorage["tasks"]);

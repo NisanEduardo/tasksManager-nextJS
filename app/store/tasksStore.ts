@@ -1,5 +1,7 @@
 import { create } from "zustand";
 
+import { useLocalStorage } from '../custom-hooks/useLocalStorage'
+
 export type TaskProps = {
   id: Date;
   name: string;
@@ -21,6 +23,11 @@ type Actions = {
   setClearTasks: () => void;
 };
 
+const { hasLocalStorageTasks } = useLocalStorage()
+
+
+console.log('hasLocalStorageTasks', hasLocalStorageTasks())
+
 export const useTaskStore = create<States & Actions>((set) => ({
   showModal: false,
   setShowModal: (statement: boolean) => set(() => ({ showModal: statement })),
@@ -34,7 +41,7 @@ export const useTaskStore = create<States & Actions>((set) => ({
     set(() => ({
       task: task,
     })),
-  tasksStoraged: [],
+  tasksStoraged: hasLocalStorageTasks(),
   setTasksStoraged: (tasks: TaskProps[]) => set(() => ({ tasksStoraged: tasks })),
   setClearTasks: () =>
     set(() => ({

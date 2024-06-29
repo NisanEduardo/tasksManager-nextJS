@@ -1,17 +1,21 @@
 export function useLocalStorage() {
   function hasLocalStorageTasks() {
-    const storedData = window.localStorage.getItem("tasksDB");
-    if (storedData) {
-      try {
-        const parsedData = JSON.parse(storedData);
+    if (typeof window !== "undefined") {
+      const storedData = window.localStorage.getItem("tasksDB");
 
-        return parsedData
-      } catch (error) {
-        console.error(error);
+      if (storedData) {
+        try {
+          const parsedData = JSON.parse(storedData);
+
+          return parsedData
+        } catch (error) {
+          console.error(error);
+        }
+
+        return []
       }
-
-      return []
     }
+
   }
 
   return {

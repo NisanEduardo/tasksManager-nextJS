@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { TaskModel } from "../../models/taskModel.model";
-import { TasksItem } from "./TaskItem";
+import { TaskModel } from "../app/models/taskModel.model";
+import { TasksItem } from "../app/components/task-item";
 
 describe("Should test taskItem component funcionalities", () => {
   const taskModel = new TaskModel();
