@@ -1,5 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClipboardCheck, faEdit } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClipboardCheck,
+  faEdit,
+  faTrashAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { TaskProps, useTaskStore } from "../../store/tasksStore";
 import { ActionButtom } from "@/app/Atoms/ActionButton/ActionButtom";
@@ -13,7 +17,7 @@ export const TasksItem = ({ task }: TasksItemProps) => {
     return task.completed ? "line-through" : "none";
   }
 
-  const { setShowModal, setTask } = useTaskStore();
+  const { setShowModal, setTask, setIsDeleteTask } = useTaskStore();
 
   return (
     <tr className="relative">
@@ -32,6 +36,7 @@ export const TasksItem = ({ task }: TasksItemProps) => {
           fn={() => {
             setShowModal(true);
             setTask(task);
+            setIsDeleteTask(false);
           }}
         >
           <FontAwesomeIcon icon={faClipboardCheck} color="rgba(21,128,61,1)" />
@@ -44,6 +49,18 @@ export const TasksItem = ({ task }: TasksItemProps) => {
         >
           <FontAwesomeIcon icon={faEdit} />
         </a>
+        <ActionButtom
+          dataTestid="openDialogDeleteTask"
+          classes="border-0"
+          text="Excluir?"
+          fn={() => {
+            setShowModal(true);
+            setTask(task);
+            setIsDeleteTask(true);
+          }}
+        >
+          <FontAwesomeIcon icon={faTrashAlt} color="rgba(255,37,58,.6)" />
+        </ActionButtom>
       </td>
     </tr>
   );

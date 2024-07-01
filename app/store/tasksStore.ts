@@ -13,6 +13,7 @@ type States = {
   taskName: string;
   task: TaskProps | null;
   tasksStoraged: TaskProps[] | never[] | any;
+  isDeleteTask: boolean
 };
 
 type Actions = {
@@ -21,12 +22,10 @@ type Actions = {
   setTask: (task: TaskProps) => void;
   setTasksStoraged: (tasks: Array<TaskProps>) => void;
   setClearTasks: () => void;
+  setIsDeleteTask: (state: boolean) => void
 };
 
 const { hasLocalStorageTasks } = useLocalStorage()
-
-
-console.log('hasLocalStorageTasks', hasLocalStorageTasks())
 
 export const useTaskStore = create<States & Actions>((set) => ({
   showModal: false,
@@ -47,4 +46,8 @@ export const useTaskStore = create<States & Actions>((set) => ({
     set(() => ({
       tasksStoraged: [],
     })),
+  isDeleteTask: false,
+  setIsDeleteTask: (state: boolean) => (set(() => ({
+    isDeleteTask: state
+  })))
 }));

@@ -6,7 +6,7 @@ import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { TaskProps } from "../store/tasksStore";
 
 import { useTaskStore } from "../store/tasksStore";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 
 interface DialogCompletedTaskModalProps {
   currTask: TaskProps;
@@ -15,14 +15,25 @@ interface DialogCompletedTaskModalProps {
 export const DialogCompletedTaskModal = ({
   currTask,
 }: DialogCompletedTaskModalProps) => {
-  const { tasksStoraged, setTasksStoraged, setShowModal } = useTaskStore();
+  const { tasksStoraged, isDeleteTask, setTasksStoraged, setShowModal } =
+    useTaskStore();
 
-  const handleCompleteTask = useCallback(
+  const handleCompleteOrDeleteTask = useCallback(
     (currTask: TaskProps) => {
       if (!tasksStoraged) return;
+
+      if (isDeleteTask) {
+        setTasksStoraged(
+          tasksStoraged.filter((item: TaskProps) => item.name !== currTask.name)
+        );
+
+        return;
+      }
+
       const updatedTask = tasksStoraged.map((item: TaskProps) =>
         item.id === currTask.id ? { ...currTask, completed: true } : item
       );
+
       setTasksStoraged(updatedTask);
     },
     [tasksStoraged]
@@ -43,11 +54,15 @@ export const DialogCompletedTaskModal = ({
         </ActionButtom>
 
         <header className="border-b border-b-gray-400 mb-5 text-center">
-          <h2 className="font-bold text-2xl pb-2">Concluir tarefa?</h2>
+          <h2 className="font-bold text-2xl pb-2">
+            {isDeleteTask ? "Excluir tarefa" : "Concluir tarefa?"}
+          </h2>
         </header>
 
         <div className="text-center">
-          <p>Deseja realmente concluir a tarefa?</p>
+          <p>
+            Deseja realmente {isDeleteTask ? "excluir" : "concluir"} a tarefa?
+          </p>
           <h4 className="text-green-700 text-xl font-semibold">
             {currTask.name}
           </h4>
@@ -59,7 +74,7 @@ export const DialogCompletedTaskModal = ({
               classes="min-w-20 flex justify-center items-center gap-2 text-white font-normal py-2 px-5 rounded-md border border-green-700 bg-green-700 hover:bg-green-600 transition-all"
               text="Sim"
               fn={() => {
-                handleCompleteTask(currTask);
+                handleCompleteOrDeleteTask(currTask);
               }}
             />
 
