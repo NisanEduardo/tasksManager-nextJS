@@ -1,29 +1,39 @@
-import "@testing-library/jest-dom";
-import { fireEvent, render, screen } from "@testing-library/react";
+jest.mock("../app/store/tasksStore");
 
-import { CreateTask } from "../app/components/create-task/CreateTask";
+import "@testing-library/jest-dom";
+import { render, screen } from "@testing-library/react";
+
 import { CreateTaskForm } from "@/app/Molecules/CreateTaskForm";
 
-describe("create task component tests", () => {
-  it("should render component without errors", () => {
-    render(<CreateTask />);
+import { useTaskStore } from "../app/store/tasksStore";
 
-    expect(screen.getByText("Cadastrar Tarefa")).toBeInTheDocument;
+function createTaskMock(name: string, showModal: boolean) {
+  useTaskStore.setState({ taskName: name, showModal: showModal });
+}
+
+describe("create task component tests", () => {
+  beforeEach(() => {
+    createTaskMock("Teste", true);
   });
 
-  it("should call submit form function", async () => {
-    const mockSubmit = jest.fn();
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
 
-    const { getByPlaceholderText, getByTestId } = render(
-      <CreateTaskForm onSubmit={mockSubmit} />
-    );
+  it("should render component without errors", () => {
+    render(<CreateTaskForm />);
 
-    fireEvent.change(getByPlaceholderText("Digite o nome da tarefa"), {
-      target: { value: "Joe Doe" },
+    expect(screen.getByText("Cadastrar Tarefa")).toBeInTheDocument();
+  });
+
+  it("should call store setTask", async () => {
+    expect(useTaskStore.setState).toBeCalledTimes(1);
+  });
+
+  it("should call store setTask with name passed as props", async () => {
+    expect(useTaskStore.setState).toBeCalledWith({
+      taskName: "Teste",
+      showModal: true,
     });
-
-    fireEvent.submit(getByTestId("createTaskForm"));
-
-    expect(mockSubmit).toHaveBeenCalled();
   });
 });

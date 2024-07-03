@@ -31,7 +31,7 @@ export const TasksItem = ({ task }: TasksItemProps) => {
       <td className="text-right pt-5">
         <ActionButtom
           dataTestid="openDialogCompletedTask"
-          classes="border-0"
+          classes={`border-0 ${task.completed ? "hidden" : "inline-block"}`}
           text="Finalizou?"
           fn={() => {
             setShowModal(true);

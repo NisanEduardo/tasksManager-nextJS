@@ -1,13 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useTaskStore, TaskProps } from "../../store/tasksStore";
+import { useEffect } from "react";
+import { useTaskStore } from "../../store/tasksStore";
 import { TasksHeading } from "../../Molecules/TasksHeading";
 import { TaskStatusModal } from "../../Molecules/TaskStatusModal";
 import { CreateTaskForm } from "../../Molecules/CreateTaskForm";
-import { TaskModel } from "../../models/taskModel.model";
 import { TasksFooter } from "@/app/Molecules/TasksFooter";
-import { useLocalStorage } from "../../custom-hooks/useLocalStorage";
 
 export const createTask = () => {
   const { setShowModal } = useTaskStore();
@@ -16,25 +14,7 @@ export const createTask = () => {
 };
 
 export const CreateTask = () => {
-  const {
-    task,
-    tasksStoraged,
-    taskName,
-    showModal,
-    setTasksStoraged,
-    setShowModal,
-    setTask,
-  } = useTaskStore();
-
-  const { hasLocalStorageTasks } = useLocalStorage();
-
-  const taskModel = new TaskModel();
-
-  function createTask() {
-    setTask(taskModel.create(new Date(), taskName, false));
-
-    setShowModal(true);
-  }
+  const { task, tasksStoraged, showModal, setTasksStoraged } = useTaskStore();
 
   useEffect(() => {
     if (!task) return;
@@ -51,7 +31,7 @@ export const CreateTask = () => {
       <TasksHeading text="Cadastrar Tarefa" />
 
       <div className="py-8">
-        <CreateTaskForm onSubmit={createTask} />
+        <CreateTaskForm />
       </div>
       <TasksFooter />
 
