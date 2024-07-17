@@ -13,8 +13,8 @@ interface PaginationProps {
   changePage: (number: number) => void;
 }
 
-const paginationRange = (pageNumber: number) => {
-  const length = pageNumber;
+const paginationRange = (pageNumbers: number) => {
+  const length = pageNumbers;
   return Array.from({ length }, (_, index) => index + 1);
 };
 
@@ -24,7 +24,7 @@ export const Pagination = ({
   currPage,
   changePage,
 }: PaginationProps) => {
-  const pageNumber = Math.ceil(totalItems / itemsPerPage);
+  const pagesQty = Math.ceil(totalItems / itemsPerPage);
 
   return (
     <ul className="[&>li]:inline-block [&>li]:m-1">
@@ -35,7 +35,7 @@ export const Pagination = ({
         <FontAwesomeIcon icon={faAngleLeft} />
       </li>
 
-      {paginationRange(pageNumber).map((number) => (
+      {paginationRange(pagesQty).map((number) => (
         <li>
           <button type="button" onClick={() => changePage(number)}>
             {number}
