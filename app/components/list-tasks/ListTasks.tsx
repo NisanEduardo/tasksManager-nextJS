@@ -1,13 +1,13 @@
 "use client";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faSort } from "@fortawesome/free-solid-svg-icons";
 import { TasksHeading } from "@/app/Molecules/TasksHeading";
 
 import { TaskProps } from "../../store/tasksStore";
 import { TasksFooter } from "@/app/Molecules/TasksFooter";
 import { TasksItem } from "../task-item/TaskItem";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { useTaskStore } from "../../store/tasksStore";
 
@@ -16,26 +16,13 @@ import { DialogCompletedTaskModal } from "@/app/Molecules/DialogCompletedTaskMod
 import { Pagination } from "@/app/Molecules/Pagination";
 
 export const ListTasks = () => {
-  const ITENS_PER_PAGE = 2;
-
-  const [currPage, setCurrPage] = useState(1);
-
-  const { hasLocalStorageTasks } = useLocalStorage();
+  const ITEMS_PER_PAGE = 10;
 
   const { task, tasksStoraged, showModal, setTasksStoraged, setShowModal } =
     useTaskStore();
+  const [currPage, setCurrPage] = useState(1);
 
-  const tasksToShowInterval = {
-    start: (currPage - 1) * ITENS_PER_PAGE,
-    ITENS_PER_PAGE,
-  };
-
-  if (!hasLocalStorageTasks()) return;
-
-  const tasksPerPageList = hasLocalStorageTasks().splice(
-    tasksToShowInterval.start,
-    tasksToShowInterval.ITENS_PER_PAGE
-  );
+  const { hasLocalStorageTasks } = useLocalStorage();
 
   useEffect(() => {
     if (!hasLocalStorageTasks) return;
@@ -43,18 +30,56 @@ export const ListTasks = () => {
     setTasksStoraged(hasLocalStorageTasks());
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("tasksDB", JSON.stringify(tasksStoraged));
-    setShowModal(false);
-  }, [tasksStoraged]);
+  useEffect(() => {}, [tasksStoraged]);
 
-  function handleChangePage(page: number) {
-    setCurrPage(page);
-  }
+  // const tasksToShowInterval = {
+  //   start: (currPage - 1) * ITEMS_PER_PAGE,
+  //   ITEMS_PER_PAGE,
+  // };
+
+  // const tasksPerPageList = hasLocalStorageTasks().splice(
+  //   tasksToShowInterval.start,
+  //   tasksToShowInterval.ITEMS_PER_PAGE
+  // );
+
+  // useEffect(() => {
+  //   localStorage.setItem("tasksDB", JSON.stringify(tasksStoraged));
+  //   setShowModal(false);
+  // }, [tasksStoraged]);
+
+  // function handleChangePage(page: number) {
+  //   setCurrPage(page);
+  // }
+
+  const handleSortTasks = useCallback(() => {
+    const sortedTasksStoraged = tasksStoraged.sort(
+      (a: TaskProps, b: TaskProps) => {
+        if (a.name < b.name) {
+          return -1;
+        } else if (a.name > b.name) {
+          return -1;
+        }
+      }
+    );
+
+    setTasksStoraged(sortedTasksStoraged);
+  }, [tasksStoraged]);
 
   return (
     <div className="relative">
-      <TasksHeading text="Tarefas a fazer" />
+      <button
+        type="button"
+        className="text-center w-full hover:opacity-70 transition flex gap-5 items-center justify-center"
+        onClick={() => {
+          handleSortTasks();
+        }}
+      >
+        <TasksHeading text="Tarefas a fazer" />
+        <FontAwesomeIcon
+          icon={faSort}
+          className="flex justify-center items-center"
+        />
+      </button>
 
       {task && showModal ? <DialogCompletedTaskModal currTask={task} /> : null}
 
@@ -76,21 +101,21 @@ export const ListTasks = () => {
           </thead>
           <tbody className="">
             {tasksStoraged &&
-              tasksPerPageList.map((task: TaskProps, index: number) => (
+              tasksStoraged.map((task: TaskProps, index: number) => (
                 <TasksItem key={`${task.name}-${index}`} task={task} />
               ))}
           </tbody>
         </table>
       </div>
-
+      {/* 
       {!hasLocalStorageTasks ? null : (
-        <Pagination
-          totalItems={tasksStoraged.length}
-          itemsPerPage={ITENS_PER_PAGE}
-          currPage={currPage}
-          changePage={handleChangePage}
-        />
-      )}
+        // <Pagination
+        //   totalItems={tasksStoraged.length}
+        //   itemsPerPage={ITEMS_PER_PAGE}
+        //   currPage={currPage}
+        //   // changePage={handleChangePage}
+        // />
+      )} */}
 
       <TasksFooter />
     </div>
