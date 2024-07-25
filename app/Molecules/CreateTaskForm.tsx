@@ -1,15 +1,12 @@
 import { useTasks } from "../custom-hooks/useTasks";
 import { ActionButtom } from "../Atoms/ActionButton/ActionButtom";
 import { useTaskStore } from "../store/tasksStore";
+import { useForm } from "../custom-hooks/useForm";
 
 export const CreateTaskForm = () => {
   const { createTask } = useTasks();
+  const { handleTaskInput } = useForm();
   const { taskName, setShowModal, setTaskName } = useTaskStore();
-
-  function handleTaskInput(event: React.FormEvent<HTMLInputElement>) {
-    let inputValue = event.currentTarget.value;
-    setTaskName(inputValue);
-  }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
